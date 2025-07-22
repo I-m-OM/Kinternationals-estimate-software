@@ -108,27 +108,28 @@ This document describes the user journey and the main pages (views) of the Kinte
 graph TD
     A[Start] --> B(Login Page);
     B --> |Successful Login| C(Dashboard / Home Page);
-    C --> |Click "Create New Estimate"| D(Create New Estimate Page);
-    C --> |Click "View Existing Estimates"| E(View Existing Orders Page);
-    C --> |Click "Change Password"| F(Change Password Modal);
+    C --> |Click \"Create New Estimate\"| D(Create New Estimate Page);
+    C --> |Click \"View Existing Estimates\"| E(View Existing Orders Page);
+    C --> |Click \"Change Password\"| F(Change Password Modal);
 
     D --> |Add Components, Calculate| D;
     D --> |Save Estimate (Draft/Final)| E;
 
-    E --> |Select Order / Click "View"| G(View Order Details Page);
-    E --> |Select Order / Click "Edit"| D_Edit(Edit Estimate Page);
-    E --> |Select Order / Click "Print"| H(PDF Download);
-    E --> |Select Order / Click "Delete"| E;
+    E --> |Select Order / Click \"View\"| G(View Order Details Page);
+    E --> |Select Order / Click \"Edit\"| D_Edit(Edit Estimate Page);
+    E --> |Select Order / Click \"Print\"| H(PDF Download);
+    E --> |Select Order / Click \"Delete\"| E;
 
     D_Edit --> |Update Components, Recalculate| D_Edit;
     D_Edit --> |Save Estimate (Update)| E;
 
-    G --> |Click "Edit Order"| D_Edit;
-    G --> |Click "Print PDF"| H;
+    G --> |Click \"Edit Order\"| D_Edit;
+    G --> |Click \"Print PDF\"| H;
 
     F --> |Password Changed Successfully| B;
 
-    C --> |Click "Logout"| B;
+    C --> |Click \"Logout\"| B;
     G --> |Navigate back| E;
     D --> |Navigate back/Cancel| C;
     D_Edit --> |Navigate back/Cancel| E;
+```
