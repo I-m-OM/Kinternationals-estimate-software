@@ -571,3 +571,264 @@ export async function createEstimate(data: EstimateInput) {
        │ Deploy
        ▼
 ┌──────────────┐     
+│  Next.js App │
+│   (Vercel)   │
+└──────┬───────┘
+       │ Connects to
+       ▼
+┌──────────────┐
+│  PostgreSQL  │
+│   Database   │
+└──────────────┘
+```
+
+### Production Deployment Flow
+
+1. **Code Push** → GitHub repository
+2. **Auto Deploy** → Vercel detects changes
+3. **Build Process**:
+   - Install dependencies
+   - Run Prisma generate
+   - Build Next.js app
+   - Run database migrations (if needed)
+4. **Deploy** → Production environment
+5. **Health Check** → Verify deployment
+
+### Environment-specific Configuration
+
+```typescript
+// config/env.ts
+export const config = {
+  isDevelopment: process.env.NODE_ENV === 'development',
+  isProduction: process.env.NODE_ENV === 'production',
+  database: {
+    url: process.env.DATABASE_URL!,
+    poolSize: process.env.NODE_ENV === 'production' ? 10 : 5,
+  },
+  auth: {
+    sessionMaxAge: 30 * 24 * 60 * 60, // 30 days
+  },
+  pdf: {
+    maxSize: 10 * 1024 * 1024, // 10MB
+  },
+}
+```
+
+---
+
+## 🔒 Backup & Recovery
+
+### Database Backup Strategy
+
+```bash
+# Daily automated backups
+pg_dump $DATABASE_URL > backup_$(date +%Y%m%d).sql
+
+# Point-in-time recovery (Vercel Postgres)
+# Automatic with Vercel Postgres Pro plan
+```
+
+### Data Retention Policy
+
+- **Estimates**: Retain indefinitely
+- **Audit Logs**: 1 year
+- **User Sessions**: 30 days
+- **Deleted Records**: Soft delete, archive after 90 days
+
+---
+
+## 📈 Future Architecture Improvements
+
+### Phase 1 (Current - MVP)
+✅ Monolithic Next.js application
+✅ Single PostgreSQL database
+✅ Server-side rendering
+
+### Phase 2 (Growth - 1000+ users)
+- [ ] Redis caching layer
+- [ ] CDN for static assets
+- [ ] Database read replicas
+- [ ] Background job processing (BullMQ)
+
+### Phase 3 (Scale - 10,000+ users)
+- [ ] Microservices for PDF generation
+- [ ] Elasticsearch for advanced search
+- [ ] Message queue (RabbitMQ/Kafka)
+- [ ] Multi-region deployment
+
+### Phase 4 (Enterprise)
+- [ ] Kubernetes orchestration
+- [ ] API Gateway (Kong/AWS API Gateway)
+- [ ] Real-time collaboration (WebSockets)
+- [ ] Advanced analytics platform
+
+---
+
+## 🎓 Learning Resources
+
+### Next.js 14
+- [Next.js Documentation](https://nextjs.org/docs)
+- [App Router Migration Guide](https://nextjs.org/docs/app/building-your-application/upgrading/app-router-migration)
+- [Server Actions](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations)
+
+### Prisma
+- [Prisma Docs](https://www.prisma.io/docs)
+- [Best Practices](https://www.prisma.io/docs/guides/performance-and-optimization)
+
+### TypeScript
+- [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html)
+- [React TypeScript Cheatsheet](https://react-typescript-cheatsheet.netlify.app/)
+
+---
+
+## 🤝 Contributing to Architecture
+
+When proposing architectural changes:
+
+1. **Document the Problem**: What are we trying to solve?
+2. **Propose Solution**: What's the technical approach?
+3. **Trade-offs**: What are the pros/cons?
+4. **Migration Path**: How do we get there?
+5. **Testing Strategy**: How do we verify it works?
+
+### Architecture Decision Records (ADR)
+
+Create ADRs for significant decisions in `docs/adr/`:
+
+```markdown
+# ADR 001: Use Next.js App Router
+
+## Status
+Accepted
+
+## Context
+Need to choose between Pages Router and App Router for new project.
+
+## Decision
+Use Next.js 14 App Router with React Server Components.
+
+## Consequences
+- **Positive**: Better performance, modern patterns, type safety
+- **Negative**: Newer API, smaller community knowledge base
+- **Risks**: Migration complexity if we need to change later
+```
+
+---
+
+## 📊 Architecture Metrics
+
+### Key Performance Indicators
+
+| Metric | Target | Current |
+|--------|--------|---------|
+| **Page Load Time** | < 2s | TBD |
+| **API Response Time** | < 500ms | TBD |
+| **Database Query Time** | < 100ms | TBD |
+| **PDF Generation Time** | < 3s | TBD |
+| **Uptime** | 99.9% | TBD |
+
+### Monitoring Dashboard
+
+Track in production:
+- Request latency (p50, p95, p99)
+- Error rate
+- Database connection pool usage
+- Memory/CPU utilization
+- Active user sessions
+
+---
+
+## 🔧 Development Tools
+
+### Recommended VS Code Extensions
+
+```json
+{
+  "recommendations": [
+    "prisma.prisma",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "bradlc.vscode-tailwindcss",
+    "ms-vscode.vscode-typescript-next",
+    "formulahendry.auto-rename-tag"
+  ]
+}
+```
+
+### Chrome DevTools Tips
+
+- **React DevTools**: Debug component tree
+- **Lighthouse**: Performance auditing
+- **Network Tab**: Monitor API calls
+- **Performance Tab**: Identify bottlenecks
+
+---
+
+## 🎯 Architecture Checklist
+
+Before deploying to production:
+
+- [ ] Database migrations tested
+- [ ] Environment variables configured
+- [ ] Error tracking set up (Sentry)
+- [ ] Monitoring configured
+- [ ] Backup strategy implemented
+- [ ] Security headers configured
+- [ ] HTTPS enabled
+- [ ] Rate limiting implemented
+- [ ] Load testing completed
+- [ ] Documentation updated
+
+---
+
+## 📞 Architecture Support
+
+For architecture questions:
+- Review this document first
+- Check existing ADRs in `docs/adr/`
+- Discuss in team meetings
+- Document decisions made
+
+---
+
+**Architecture Version**: 1.0  
+**Last Updated**: January 2025  
+**Next Review**: March 2025
+
+---
+
+## Appendix A: Technology Comparison
+
+### Why Not These Alternatives?
+
+| Alternative | Why We Didn't Choose It |
+|------------|-------------------------|
+| **React + Express** | More boilerplate, separate deployments |
+| **Remix** | Smaller ecosystem, less mature |
+| **SvelteKit** | Team familiarity with React |
+| **Ruby on Rails** | Prefer JavaScript/TypeScript full-stack |
+| **Django** | Prefer JavaScript ecosystem |
+| **MongoDB** | Need strong relational integrity |
+
+### Alternative Considered for Future
+
+- **tRPC**: Type-safe APIs (if we split frontend/backend)
+- **GraphQL**: Flexible querying (for complex data needs)
+- **Turborepo**: Monorepo management (if we add mobile app)
+
+---
+
+## Appendix B: Glossary
+
+| Term | Definition |
+|------|------------|
+| **RSC** | React Server Components - server-rendered React components |
+| **SSR** | Server-Side Rendering - HTML generated on server |
+| **SSG** | Static Site Generation - HTML generated at build time |
+| **ISR** | Incremental Static Regeneration - update static pages |
+| **ORM** | Object-Relational Mapping - database abstraction layer |
+| **ACID** | Atomicity, Consistency, Isolation, Durability |
+| **CRUD** | Create, Read, Update, Delete operations |
+
+---
+
