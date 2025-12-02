@@ -116,7 +116,9 @@ export default async function CustomerDetailPage({
                     <p className="text-sm text-gray-500">{estimate.title}</p>
                   </div>
                   <div className="text-right">
-                    <p className="font-medium">₹{estimate.total.toString()}</p>
+                    <p className="font-medium">
+                      ₹{Number(estimate.total).toLocaleString("en-IN")}
+                    </p>
                     <p className="text-sm text-gray-500">{estimate.status}</p>
                   </div>
                 </div>

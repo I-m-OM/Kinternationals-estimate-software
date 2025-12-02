@@ -14,9 +14,23 @@ export default async function EditCustomerPage({
     notFound();
   }
 
+  // Serialize dates for client component
+  const serializedCustomer = {
+    id: customer.id,
+    name: customer.name,
+    email: customer.email,
+    phone: customer.phone,
+    address: customer.address,
+    city: customer.city,
+    state: customer.state,
+    zipCode: customer.zipCode,
+    country: customer.country,
+    notes: customer.notes,
+  };
+
   return (
     <div className="max-w-4xl">
-      <CustomerForm mode="edit" customer={customer} />
+      <CustomerForm mode="edit" customer={serializedCustomer} />
     </div>
   );
 }

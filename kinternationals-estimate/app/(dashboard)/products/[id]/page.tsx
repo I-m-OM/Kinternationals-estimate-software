@@ -17,12 +17,12 @@ export default async function ProductDetailPage({
     notFound();
   }
 
-  const margin = product.costPrice
-    ? (
-        ((Number(product.basePrice) - Number(product.costPrice)) /
-          Number(product.basePrice)) *
-        100
-      ).toFixed(2)
+  // Convert Decimal to number for calculations
+  const basePrice = Number(product.basePrice);
+  const costPrice = product.costPrice ? Number(product.costPrice) : null;
+
+  const margin = costPrice
+    ? (((basePrice - costPrice) / basePrice) * 100).toFixed(2)
     : null;
 
   async function handleDelete() {
@@ -83,13 +83,13 @@ export default async function ProductDetailPage({
             <div>
               <p className="text-sm text-gray-500">Base Price</p>
               <p className="font-medium text-lg">
-                ₹{product.basePrice.toString()}
+                ₹{basePrice.toLocaleString("en-IN")}
               </p>
             </div>
             <div>
               <p className="text-sm text-gray-500">Cost Price</p>
               <p className="font-medium">
-                {product.costPrice ? `₹${product.costPrice.toString()}` : "-"}
+                {costPrice ? `₹${costPrice.toLocaleString("en-IN")}` : "-"}
               </p>
             </div>
             {margin && (
@@ -100,7 +100,9 @@ export default async function ProductDetailPage({
             )}
             <div>
               <p className="text-sm text-gray-500">Tax Rate</p>
-              <p className="font-medium">{product.taxRate.toString()}%</p>
+              <p className="font-medium">
+                {Number(product.taxRate).toFixed(2)}%
+              </p>
             </div>
           </CardContent>
         </Card>

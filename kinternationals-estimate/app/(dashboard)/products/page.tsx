@@ -69,7 +69,7 @@ export default async function ProductsPage() {
                     {product.category.name}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    ₹{product.basePrice.toString()}
+                    ₹{Number(product.basePrice).toLocaleString("en-IN")}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {product.stockQuantity ?? "-"}

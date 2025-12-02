@@ -17,9 +17,23 @@ export default async function EditCategoryPage({
     notFound();
   }
 
+  // Serialize for client component
+  const serializedCategory = {
+    id: category.id,
+    name: category.name,
+    slug: category.slug,
+    description: category.description,
+    parentId: category.parentId,
+    displayOrder: category.displayOrder,
+  };
+
   return (
     <div className="max-w-4xl">
-      <CategoryForm mode="edit" category={category} categories={categories} />
+      <CategoryForm
+        mode="edit"
+        category={serializedCategory}
+        categories={categories}
+      />
     </div>
   );
 }

@@ -45,6 +45,12 @@ export default async function DashboardLayout({
                 >
                   Products
                 </Link>
+                <Link
+                  href="/estimates"
+                  className="text-gray-600 hover:text-gray-900"
+                >
+                  Estimates
+                </Link>
               </nav>
             </div>
             <div className="flex items-center gap-4">
