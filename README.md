@@ -333,7 +333,7 @@ npm install
 ## 📞 Support
 
 For questions or issues:
-- 📧 Email: support@kinternationals.com
+- 📧 Email: sales@kinternationals.com
 - 🐛 Issues: [GitHub Issues](https://github.com/I-m-OM/Kinternationals-estimate-software/issues)
 
 ---
