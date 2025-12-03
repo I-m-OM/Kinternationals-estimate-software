@@ -281,9 +281,9 @@ Based on typical client needs:
 
 ---
 
-## 🤔 **WHAT DO YOU WANT TO DO?**
+## 🤔 **WHAT CAN WE DO?**
 
-**Tell me your preference:**
+**Future options:**
 
 **A**: Deploy now, get feedback → **RECOMMENDED** ⭐
 **B**: Add PDF generation first (2-3 hrs)
@@ -293,5 +293,3 @@ Based on typical client needs:
 **F**: Something else? (tell me!)
 
 ---
-
-**What's your choice?** Let me know and I'll guide you through it! 🚀🎉
